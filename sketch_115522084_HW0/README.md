@@ -4,5 +4,5 @@
   <img width="836" height="451" alt="image" src="https://github.com/user-attachments/assets/991b770c-2055-452d-9c46-0da6e98386fc" />
   
 # how you completed these tasks
-  > I pasted the code from GitHub after downloading it.
-  > I used ChatGPT to check what each run of the program was doing.
+  - I pasted the code from GitHub after downloading it.
+  - I used ChatGPT to check what each run of the program was doing.
