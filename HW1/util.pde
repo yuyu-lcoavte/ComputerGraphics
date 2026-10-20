@@ -8,31 +8,36 @@ public void CGLine(float x1, float y1, float x2, float y2) {
     // coordinates (x, y).
     // For instance: drawPoint(114, 514, color(255, 0, 0)); signifies drawing a red
     // point at (114, 514).
-    
-    float x = x1;
-    float y = y1;
+    // 先把座標轉成整數，避免一直無法到終點
+    float x = round(x1);
+    float y = round(y1);
+    float endX = round(x2);
+    float endY = round(y2);
 
-    float endX = x2;
-    float endY = y2;
-    
+    // 計算 x、y 的距離
     float dx = abs(endX - x);
     float dy = abs(endY - y);
 
+    // 判斷要往哪個方向走
     float sx = (endX >= x) ? 1 : -1;
     float sy = (endY >= y) ? 1 : -1;
 
+    // 先畫起點
     drawPoint(x, y, color(0, 0, 0));
 
     if (dx >= dy) {
+        // x 的變化比較大，以 x 為主
         float a = dy;
         float b = -dx;
         float d = a + b / 2;
 
         while (x != endX) {
             if (d <= 0) {
+                // 走 E
                 x += sx;
                 d += a;
             } else {
+                // 走斜的方向
                 x += sx;
                 y += sy;
                 d += (a + b);
@@ -41,15 +46,18 @@ public void CGLine(float x1, float y1, float x2, float y2) {
         }
 
     } else {
+        // y 的變化比較大，以 y 為主
         float a = dx;
         float b = -dy;
         float d = a + b / 2;
 
         while (y != endY) {
             if (d <= 0) {
+                // 只移動 y
                 y += sy;
                 d += a;
             } else {
+                // x、y 一起移動
                 x += sx;
                 y += sy;
                 d += (a + b);
@@ -78,7 +86,7 @@ public void CGCircle(float x, float y, float r) {
     float cy = y;
     float R = r;
 
-    // Midpoint Circle 初始位置
+    // 從 (0, R) 開始
     float px = 0;
     float py = R;
 
@@ -88,7 +96,7 @@ public void CGCircle(float x, float y, float r) {
     float incSE = 5 - 2 * R;
 
     while (px <= py) {
-        // 畫出八個對稱點
+        // 利用八個方向的對稱畫出圓
         drawPoint(cx + px, cy + py, color(0, 0, 0));
         drawPoint(cx - px, cy + py, color(0, 0, 0));
         drawPoint(cx + px, cy - py, color(0, 0, 0));
@@ -100,13 +108,13 @@ public void CGCircle(float x, float y, float r) {
         drawPoint(cx - py, cy - px, color(0, 0, 0));
 
         if (d < 0) {
-            // 選擇 E
+            // 選 E，只增加 px
             d += incE;
             incE += 2;
             incSE += 2;
             px++;
         } else {
-            // 選擇 SE
+            // 選 SE，px 增加、py 減少
             d += incSE;
             incE += 2;
             incSE += 4;
@@ -130,28 +138,28 @@ public void CGEllipse(float x, float y, float r1, float r2) {
     // Utilize the function drawPoint(x, y, color) to apply color to the pixel at
     // coordinates (x, y).
     
-    // 橢圓中心及水平、垂直半徑
+    // 橢圓中心及兩個半徑
     float cx = x;
     float cy = y;
     float rx = r1;
     float ry = r2;
 
-    // Midpoint Ellipse 初始位置
+    // 從橢圓上方開始
     float px = 0;
     float py = ry;
 
-    // 半徑平方
+    // 計算半徑平方
     float rx2 = rx * rx;
     float ry2 = ry * ry;
 
-    // 初始增量
+    // 判斷目前在哪個 Region
     float dx = 2 * ry2 * px;
     float dy = 2 * rx2 * py;
 
-    // Region 1 初始判斷值
+    // Region 1 的初始判斷值
     float d1 = ry2 - rx2 * ry + 0.25f * rx2;
 
-    // Region 1
+    // Region 1：以 x 的移動為主
     while (dx < dy) {
         // 畫出四個對稱點
         drawPoint(cx + px, cy + py, color(0, 0, 0));
@@ -160,12 +168,12 @@ public void CGEllipse(float x, float y, float r1, float r2) {
         drawPoint(cx - px, cy - py, color(0, 0, 0));
 
         if (d1 < 0) {
-            // 選擇 E
+            // 選 E
             px++;
             dx += 2 * ry2;
             d1 += dx + ry2;
         } else {
-            // 選擇 SE
+            // 選 SE
             px++;
             py--;
             dx += 2 * ry2;
@@ -174,12 +182,12 @@ public void CGEllipse(float x, float y, float r1, float r2) {
         }
     }
 
-    // Region 2 初始判斷值
+    // Region 2 的初始判斷值
     float d2 = ry2 * (px + 0.5f) * (px + 0.5f)
              + rx2 * (py - 1) * (py - 1)
              - rx2 * ry2;
 
-    // Region 2
+    // Region 2：以 y 的移動為主
     while (py >= 0) {
         // 畫出四個對稱點
         drawPoint(cx + px, cy + py, color(0, 0, 0));
@@ -188,12 +196,12 @@ public void CGEllipse(float x, float y, float r1, float r2) {
         drawPoint(cx - px, cy - py, color(0, 0, 0));
 
         if (d2 > 0) {
-            // 選擇 S
+            // 選 S
             py--;
             dy -= 2 * rx2;
             d2 += rx2 - dy;
         } else {
-            // 選擇 SE
+            // 選 SE
             px++;
             py--;
             dx += 2 * ry2;
@@ -218,43 +226,37 @@ public void CGCurve(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4) {
     // Otherwise, you will receive a score of 0 for this part.
     // Utilize the function drawPoint(x, y, color) to apply color to the pixel at
     // coordinates (x, y).
-    // 計算四個控制點之間的總距離
+    // 先算控制點之間的距離
     float d1 = sqrt(sq(p2.x - p1.x) + sq(p2.y - p1.y));
     float d2 = sqrt(sq(p3.x - p2.x) + sq(p3.y - p2.y));
     float d3 = sqrt(sq(p4.x - p3.x) + sq(p4.y - p3.y));
-    
+
     float length = d1 + d2 + d3;
 
-    // 設定取樣次數
+    // 根據距離決定取樣次數
     int steps = ceil(length * 3);
 
     for (int i = 0; i <= steps; i++) {
-
         // t 從 0 到 1
         float t = (float)i / steps;
         float u = 1 - t;
 
-        // Bezier Curve 四個權重
+        // 計算四個權重
         float a = u * u * u;
         float b = 3 * u * u * t;
         float c = 3 * u * t * t;
         float d = t * t * t;
 
-        // 計算曲線上的 x 座標
-        float px = a * p1.x
-                 + b * p2.x
-                 + c * p3.x
-                 + d * p4.x;
+        // 計算曲線上的 x
+        float px = a * p1.x + b * p2.x + c * p3.x + d * p4.x;
 
-        // 計算曲線上的 y 座標
-        float py = a * p1.y
-                 + b * p2.y
-                 + c * p3.y
-                 + d * p4.y;
+        // 計算曲線上的 y
+        float py = a * p1.y + b * p2.y + c * p3.y + d * p4.y;
 
-        // 畫出曲線上的點
+        // 把算出的點畫出來
         drawPoint(px, py, color(0, 0, 0));
     }
+
     /*
     stroke(0);
     noFill();
@@ -280,18 +282,19 @@ public void CGEraser(Vector3 p1, Vector3 p2) {
     int p1y = round(p1.y);
     int p2y = round(p2.y);
 
-    // 確定矩形的邊界
+    // 找出矩形的範圍
     int xMin = min(p1x, p2x);
     int xMax = max(p1x, p2x);
     int yMin = min(p1y, p2y);
     int yMax = max(p1y, p2y);
 
-    // 擦除矩形範圍
+    // 把範圍內的點改成背景色
     for (int i = xMin; i <= xMax; i++) {
         for (int j = yMin; j <= yMax; j++) {
             drawPoint(i, j, color(250));
         }
     }
+
 }
 
 public void drawPoint(float x, float y, color c) {
