@@ -133,3 +133,17 @@ public class EraseArea implements Shape {
         CGEraser(point1, point2);
     }
 }
+public class Spray implements Shape {
+    ArrayList<Vector3> points = new ArrayList<Vector3>();
+
+    public Spray(ArrayList<Vector3> p) {
+        points = new ArrayList<Vector3>(p);
+    }
+
+    @Override
+    public void drawShape() {
+        for (Vector3 point : points) {
+            drawPoint(point.x, point.y, color(0, 0, 0));
+        }
+    }
+}
