@@ -284,3 +284,50 @@ class CurveRenderer implements Renderer{
       
   }
 }
+public class SprayRenderer implements Renderer {
+
+    private ArrayList<Vector3> points = new ArrayList<Vector3>();
+    private boolean spraying = false;
+
+    @Override
+    public void render() {
+        boolean inside = shapeRenderer.checkInBox(
+            new Vector3(mouseX, mouseY, 0)
+        );
+
+        if (mousePressed && mouseButton == LEFT && inside) {
+            spraying = true;
+
+            // 在滑鼠附近隨機產生小點
+            float r = 15;
+
+            for (int i = 0; i < 50; i++) {
+                float dx = random(-r, r);
+                float dy = random(-r, r);
+
+                // 只保留圓形範圍內的點
+                if (dx * dx + dy * dy <= r * r) {
+                    Vector3 p = new Vector3(mouseX + dx, mouseY + dy, 0);
+
+                    if (shapeRenderer.checkInBox(p)) {
+                        points.add(p);
+                    }
+                }
+            }
+
+        } else if (!mousePressed && spraying) {
+            // 放開滑鼠後儲存噴漆結果
+            if (points.size() > 0) {
+                shapeRenderer.addShape(new Spray(points));
+            }
+
+            points = new ArrayList<Vector3>();
+            spraying = false;
+        }
+
+        // 畫出目前正在噴的點
+        for (Vector3 p : points) {
+            drawPoint(p.x, p.y, color(0));
+        }
+    }
+}
