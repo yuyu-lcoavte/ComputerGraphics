@@ -7,7 +7,7 @@ This repository contains my assignments for the Computer Graphics course at Nati
 ### HW0
 
 - Introduction to Processing and basic graphics programming.
-- [README](HW0/README.md)
+- [README](sketch_115522084_HW0/README.md)
 
 ### HW1
 
