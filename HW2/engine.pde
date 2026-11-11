@@ -58,6 +58,10 @@ public class Engine {
 
     void run() {
         shapeRenderer.run();
+        fill(0);
+        textAlign(LEFT, BASELINE);
+        textSize(12);
+        text("SSAA: " + (shapeRenderer.useSSAA ? "ON" : "OFF") + "  (press A)", 140, 30);
         inspector.run();
         hierarchy.run();
 

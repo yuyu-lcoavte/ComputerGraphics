@@ -11,3 +11,9 @@ void draw() {
     engine.run();
 
 }
+
+void keyPressed() {
+    if (key == 'a' || key == 'A') {
+        engine.shapeRenderer.useSSAA = !engine.shapeRenderer.useSSAA;
+    }
+}

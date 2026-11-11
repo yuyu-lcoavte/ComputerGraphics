@@ -1,17 +1,25 @@
 public class ShapeRenderer {
     private Box box;
     private ArrayList<Shape> shapes;
+    public boolean useSSAA = true;
+    public SupersampleBuffer ssaa;
 
     public ShapeRenderer() {
         box = new Box(20, 50, 500, height - 100);
         box.setBoxColor(250);
         shapes = new ArrayList<Shape>();
+        ssaa = new SupersampleBuffer(20, 50, 500, height - 100);
     }
 
     public void run() {
         box.show();
-        shapes.forEach(Shape::drawShape);
-
+        if (useSSAA) {
+            ssaa.beginFrame();
+            shapes.forEach(Shape::drawShape);
+            ssaa.resolve();
+        } else {
+            shapes.forEach(Shape::drawShape);
+        }
     }
 
     public void addShape(Shape s) {

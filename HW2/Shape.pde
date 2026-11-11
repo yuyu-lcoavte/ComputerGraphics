@@ -11,9 +11,15 @@ public class Shape{
         }
         
         t_pos = Sutherland_Hodgman_algorithm(t_pos,engine.boundary);
+        if (t_pos.length < 3) return;
         
         for(int i=0;i<t_pos.length;i++){
-            t_pos[i] = new Vector3(map(t_pos[i].x,-1,1,20,520),map(t_pos[i].y,-1,1,50,height-50),0);
+            t_pos[i] = new Vector3(map(t_pos[i].x,-1,1,20,520),map(t_pos[i].y,-1,1,50,height-50),t_pos[i].z);
+        }
+
+       if (engine.shapeRenderer.useSSAA) {
+            engine.shapeRenderer.ssaa.rasterize(t_pos, color(100), color(0));
+            return;
         }
 
         Vector3[] minmax = findBoundBox(t_pos);
