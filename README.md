@@ -13,19 +13,19 @@ This repository contains my assignments for the Computer Graphics course at Nati
 
 - Implemented basic drawing functions, including lines, circles, ellipses, Bézier curves, and an eraser.
 - BONUS: Added a spray painting tool.
-- [README (English)](HW1/README_en.md) | [README (繁體中文)](HW1/README_ch.md)
+- [README (English)](HW1/README.md) | [README (繁體中文)](HW1/README_ch.md)
 
 ### HW2
 
 - Implemented transformation matrices (translation, rotation, and scaling), polygon filling using the Odd-Parity Rule, bounding box calculation, and polygon clipping using the Sutherland–Hodgman algorithm.
 - BONUS: Implemented 2×2 Super-Sampling Anti-Aliasing (SSAA) with per-sample depth testing.
-- [README (English)](HW2/README_en.md) | [README (繁體中文)](HW2/README.md)
+- [README (English)](HW2/README.md) | [README (繁體中文)](HW2/README.md)
 
 ### HW3
 
 - Implemented 3D transformation matrices (Model, View, and Projection), perspective projection, depth buffering, backface culling, and keyboard-based camera control.
 - BONUS: Implemented 3D clipping against six clipping planes for debug wireframe rendering.
-- [README (English)](HW3/README_en.md) | [README (繁體中文)](HW3/README_zh-TW.md)
+- [README (English)](HW3/README.md) | [README (繁體中文)](HW3/README_zh-TW.md)
 
 ## Notes
 
